@@ -1,0 +1,19 @@
+{
+  "name": "tictactoe",
+  "version": "1.0.0",
+  "description": "To play Tic Tac toe Game with computer",
+  "main": "TicTacToe.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Priyankateke/Tic-Tac-Toe.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Priyankateke/Tic-Tac-Toe/issues"
+  },
+  "homepage": "https://github.com/Priyankateke/Tic-Tac-Toe#readme"
+}
