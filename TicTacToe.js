@@ -2,6 +2,7 @@ console.log("welcome To Tic Tac Toe")
 
 //variables
 let player;
+let playerTurn
 
 //declaring array
 let gameBoard = [];
@@ -14,14 +15,16 @@ function resetBoard() {
 /**
  * Assigning Sign To Player
  */
-function assignSignToPlayer() {
+function tossForPlay() {
     let randomValue = Math.floor(Math.random() * 2)
     if(randomValue == 1) {
         player = 'X'
+        playerTurn = true
     }
     else {
         player = 'O'
+        playerTurn = true
     }
 }
 resetBoard()
-assignSignToPlayer()
+tossForPlay()
