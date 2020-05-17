@@ -1,12 +1,12 @@
 console.log("welcome To Tic Tac Toe")
 var read = require('readline-sync')
+const Process =require('process')
 
 //constants
 let TOTAL_MOVES = 9;
 
 //variables
 let player;
-let playerTurn;
 let playerMoves = 0;
 //let position
 
@@ -37,13 +37,24 @@ function tossForPlay() {
     let randomValue = Math.floor(Math.random() * 2)
     if(randomValue == 1) {
         player = 'X'
-        playerTurn = true
     }
     else {
         player = 'O'
-        playerTurn = true
     }
     console.log("Player sign "+player)
+}
+
+/**
+ * Switch Player Sign
+ */
+function switchPlayerSign() {
+    //Checking condition using Ternary operators
+    if( player == 'X' ) {
+        player = 'O'
+    }
+    else {
+        player = 'X'
+    }
 }
 
 /**
@@ -61,29 +72,61 @@ function userPlay() {
 }
 
 /**
+ * checking position is already filled or blank
+ * @param {*} position 
+ */
+function isCellEmpty(position) {
+    let index = position-1
+    if( gameBoard[index] != 'X' && gameBoard[index] != 'O' ) {
+        gameBoard[index] = player
+        playerMoves++
+    }
+    else {
+        console.log("Position is Occupied")
+        userPlay()
+    }
+}
+
+/**
  * Running game untill game ends
  */
 function playTillGameEnd() {
     while( playerMoves < TOTAL_MOVES ) {
         userPlay()
         displayBoard()
+        checkWinningCells()
+        switchPlayerSign()
     }
+    console.log("Game Tie")
 }
 
 /**
- * checking position is already filled or blank
- * @param {*} position 
+ * Checking column, rows and diagonals
  */
-function isCellEmpty(position) {
-    let index = position-1
-    if( gameBoard[index] != player ) {
-        gameBoard[index] = player
-        playerMoves++
+function checkWinningCells() {
+    let col = 0
+    for( let row = 0; row < 7; row += 3 ) {
+        checkWinner(gameBoard[row], gameBoard[(row+1)], gameBoard[(row+2)])
+        checkWinner(gameBoard[col], gameBoard[(col+3)], gameBoard[(col+6)])
+        col++
     }
-    else {
-        console.log("Position is Occupied")
+    checkWinner(gameBoard[0], gameBoard[4], gameBoard[8])
+    checkWinner(gameBoard[2], gameBoard[4], gameBoard[6])
+}
+
+/**
+ * 
+ * @param {*} cell1 
+ * @param {*} cell2 
+ * @param {*} cell3 
+ */
+function checkWinner(cell1, cell2, cell3) {
+    if( cell1 == cell2 && cell2 == cell3 ) {
+        console.log("Player Win and have sign " + player)
+        Process.exit()
     }
 }
+
 resetBoard()
 tossForPlay()
 playTillGameEnd()
