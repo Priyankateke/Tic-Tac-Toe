@@ -7,7 +7,10 @@ let TOTAL_MOVES = 9;
 
 //variables
 let player;
+let computer;
 let playerMoves = 0;
+let currentPlayer = 0;
+let flag
 //let position
 
 //declaring array
@@ -36,69 +39,84 @@ function displayBoard() {
 function tossForPlay() {
     let randomValue = Math.floor(Math.random() * 2)
     if(randomValue == 1) {
-        player = 'X'
-    }
-    else {
+        computer = 'X'
         player = 'O'
     }
-    console.log("Player sign "+player)
+    else {
+        player = 'X'
+        computer = 'O'
+    }
+    if( player == 'X' ) {
+        console.log("Player play first with X sign ")
+        playerTurn()
+    }
+    else {
+        console.log("Computer play first with X sign")
+        computerTurn()
+    }
 }
 
 /**
  * Switch Player Sign
  */
-function switchPlayerSign() {
-    //Checking condition using Ternary operators
-    if( player == 'X' ) {
-        player = 'O'
-    }
-    else {
-        player = 'X'
-    }
+function switchPlayer() {
+   if( currentPlayer == 1 ) {
+       computerTurn(0)
+   } 
+   else {
+       playerTurn(0)
+   }
 }
 
 /**
  * Function For User Play
  */
-function userPlay() {
+function playerTurn(flag) {
+    if(flag == 0 ) {
+        console.log("Player Turn Sign : "+player)
+    }
     let position = read.question("Enter Position Between 1 to 9 : " )
     if( position >= 1 && position <= 9 ) {
-        isCellEmpty(position)
+        isCellEmpty(position, player)
+        currentPlayer=1
     }
     else {
         console.log("Invalid Position")
-        userPlay()
+        playerTurn()
     }
 }
 
+function computerTurn(flag) {
+    if(flag == 0 ) {
+        console.log("computer Turn Sign " + computer)
+    }
+    let randomPosition = Math.floor(Math.random() * 9 + 1)
+    isCellEmpty(randomPosition, computer)
+    currentPlayer = 0
+}
+
 /**
- * checking position is already filled or blank
+ * 
  * @param {*} position 
+ * @param {*} sign 
  */
-function isCellEmpty(position) {
+function isCellEmpty(position, sign, flag) {
     let index = position-1
     if( gameBoard[index] != 'X' && gameBoard[index] != 'O' ) {
-        gameBoard[index] = player
+        gameBoard[index] = sign
         playerMoves++
     }
     else {
-        console.log("Position is Occupied")
-        userPlay()
+        if(currentPlayer == 0) {
+            console.log("Position is occupied : ")
+            playerTurn(1)
+        } 
+        else {
+            computerTurn(1)
+        }
     }
 }
 
-/**
- * Running game untill game ends
- */
-function playTillGameEnd() {
-    while( playerMoves < TOTAL_MOVES ) {
-        userPlay()
-        displayBoard()
-        checkWinningCells()
-        switchPlayerSign()
-    }
-    console.log("Game Tie")
-}
 
 /**
  * Checking column, rows and diagonals
@@ -115,18 +133,38 @@ function checkWinningCells() {
 }
 
 /**
- * 
+ * Checking Winner
  * @param {*} cell1 
  * @param {*} cell2 
  * @param {*} cell3 
  */
 function checkWinner(cell1, cell2, cell3) {
+    let winner;
     if( cell1 == cell2 && cell2 == cell3 ) {
-        console.log("Player Win and have sign " + player)
+        if( cell1 == player ) {
+            winner = "Player"
+        }
+        else {
+            winner = "Computer"
+        }
+        console.log(winner+" Win and have sign " + cell1)
         Process.exit()
     }
 }
 
-resetBoard()
-tossForPlay()
+/**
+ * Running game untill game ends
+ */
+function playTillGameEnd() {
+    resetBoard()
+    tossForPlay()
+    while( playerMoves < TOTAL_MOVES ) {
+        displayBoard()
+        checkWinningCells()
+        switchPlayer()
+    }
+    displayBoard()
+    console.log("Game Tie")
+}
+
 playTillGameEnd()
