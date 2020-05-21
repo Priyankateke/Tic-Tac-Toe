@@ -29,7 +29,7 @@ class TicTacToe {
         }
 
         this.displayBoard();
-        
+
         do {
             if (isCompTurn) {
                 isCompTurn = true;
@@ -38,7 +38,7 @@ class TicTacToe {
             else {
                 isCompTurn = false;
                 console.log("Player chance");
-                choice = read.question("Enter Position Between 1 to 9 : ");             
+                choice = read.question("Enter Position Between 1 to 9 : ");
             }
             if (isCompTurn || (arr[choice] != 'X' && arr[choice] != 'O')) {
                 if (isCompTurn) {
@@ -104,8 +104,8 @@ class TicTacToe {
     }
     /**
      * computer move turn
-     * @param {*} playerChar 
-     * @param {*} compChar 
+     * @param {*} playerChar
+     * @param {*} compChar
      */
     computerMove(playerChar, compChar) {
 
@@ -120,20 +120,25 @@ class TicTacToe {
         else if (this.checkWinAndBlock(3, 5, 7, compChar, compChar)) { }
         //End Check Win Cells
 
-        //start diagonal and side cells
-        else {
-            this.checkDiagonalCenterSideCell(compChar);
-        }
-        //end diagonal and side cells
+         //Start block Win Cells
+         if (this.checkWinAndBlock(1, 2, 3, playerChar, compChar)) { }
+         else if (this.checkWinAndBlock(4, 5, 6, playerChar, compChar)) { }
+         else if (this.checkWinAndBlock(7, 8, 9, playerChar, compChar)) { }
+         else if (this.checkWinAndBlock(1, 4, 7, playerChar, compChar)) { }
+         else if (this.checkWinAndBlock(2, 5, 8, playerChar, compChar)) { }
+         else if (this.checkWinAndBlock(3, 6, 9, playerChar, compChar)) { }
+         else if (this.checkWinAndBlock(1, 5, 9, playerChar, compChar)) { }
+         else if (this.checkWinAndBlock(3, 5, 7, playerChar, compChar)) { }
+         //End block Win Cells
     }
 
    /**
     * computer will check for win and block opponent
-    * @param {*} cell1 
-    * @param {*} cell2 
-    * @param {*} cell3 
-    * @param {*} checkChar 
-    * @param {*} compChar 
+    * @param {*} cell1
+    * @param {*} cell2
+    * @param {*} cell3
+    * @param {*} checkChar
+    * @param {*} compChar
     */
     checkWinAndBlock(cell1, cell2, cell3, checkChar, compChar) {
         let allocated = false;
@@ -155,7 +160,7 @@ class TicTacToe {
 
     /**
      * check Valid Cell
-     * @param {*} val 
+     * @param {*} val
      */
     isEmpty(val) {
         let isBlank = false;
@@ -163,23 +168,6 @@ class TicTacToe {
             isBlank = true;
         }
         return isBlank;
-    }
-
-    /**
-     * check corners, sides, center are available or not
-     * @param {*} compChar 
-     */
-    checkDiagonalCenterSideCell(compChar) {
-        let allocated = false;
-        let cells = [1, 3, 7, 9, 5, 2, 4, 6, 8];
-        for (let i = 0; i < cells.length; i++) {
-            if (this.isEmpty(arr[cells[i]])) {
-                arr[cells[i]] = compChar;
-                allocated = true;
-                break;
-            }
-        }
-        return allocated;
     }
 
     /**
