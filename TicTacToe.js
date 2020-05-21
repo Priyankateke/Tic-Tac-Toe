@@ -130,6 +130,13 @@ class TicTacToe {
          else if (this.checkWinAndBlock(1, 5, 9, playerChar, compChar)) { }
          else if (this.checkWinAndBlock(3, 5, 7, playerChar, compChar)) { }
          //End block Win Cells
+
+         //start diagonal and side cells
+        else {
+            this.checkCornersCell(compChar);
+        }
+        //end diagonal and side cells
+
     }
 
    /**
@@ -168,6 +175,25 @@ class TicTacToe {
             isBlank = true;
         }
         return isBlank;
+    }
+
+    /**
+     * check corners, sides, center are available or not
+     * @param {*} compChar 
+     */
+    checkCornersCell(compChar) {
+        let allocated = false;
+       // let cells = [1, 3, 7, 9, 5, 2, 4, 6, 8];
+
+        let cells = [1, 3, 7, 9];
+        for (let i = 0; i < cells.length; i++) {
+            if (this.isEmpty(arr[cells[i]])) {
+                arr[cells[i]] = compChar;
+                allocated = true;
+                break;
+            }
+        }
+        return allocated;
     }
 
     /**
