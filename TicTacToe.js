@@ -9,7 +9,7 @@ let arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 let choice;
 flag = 0;
 let moveCompleted = 0;
-let totalMove = 9;
+const TOTAL_MOVES = 9;
 
 class TicTacToe {
     /**
@@ -61,7 +61,7 @@ class TicTacToe {
             }
             flag = this.checkWin();
 
-        } while (flag != 1 && flag != -1 && moveCompleted != totalMove)
+        } while (flag != 1 && flag != -1 && moveCompleted != TOTAL_MOVES)
 
         this.displayBoard();
 
@@ -133,7 +133,7 @@ class TicTacToe {
 
          //start diagonal and side cells
         else {
-            this.checkCornersCell(compChar);
+            this.checkCornersCenterCell(compChar);
         }
         //end diagonal and side cells
 
@@ -181,11 +181,10 @@ class TicTacToe {
      * check corners, sides, center are available or not
      * @param {*} compChar 
      */
-    checkCornersCell(compChar) {
+    checkCornersCenterCell(compChar) {
         let allocated = false;
-       // let cells = [1, 3, 7, 9, 5, 2, 4, 6, 8];
 
-        let cells = [1, 3, 7, 9];
+        let cells = [1, 3, 7, 9, 5];
         for (let i = 0; i < cells.length; i++) {
             if (this.isEmpty(arr[cells[i]])) {
                 arr[cells[i]] = compChar;
